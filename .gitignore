@@ -1,0 +1,15 @@
+# Ignorar archivos del sistema y carpetas de configuración de VS Code
+.vscode/
+Thumbs.db
+.DS_Store
+
+# Ignorar logs y archivos temporales de XAMPP/PHP
+*.log
+tmp/
+
+# Si usas bases de datos, no querrás subir archivos SQL pesados o temporales
+*.sql
+
+# Ignorar archivos de configuración con contraseñas (ejemplo)
+config.local.php
+.env
