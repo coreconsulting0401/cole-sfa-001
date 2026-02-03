@@ -90,6 +90,7 @@ require_once __DIR__ . '/views/layout/header.php';
                     <div data-i18n="Accordion">Accordion</div>
                   </a>
                 </li>
+                hbhbh
                 <li class="menu-item">
                   <a href="ui-alerts.html" class="menu-link">
                     <div data-i18n="Alerts">Alerts</div>
