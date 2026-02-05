@@ -1,14 +1,23 @@
 <?php
-
 session_start();
 if (!isset($_SESSION['user_id'])) {
     header("Location: login.php");
     exit();
 }
 
-
 // 1. Cargamos el encabezado (Menú, CSS, etc.)
 require_once __DIR__ . '/views/layout/header.php';
+
+require_once '../config/Database.php';
+require_once '../src/DAO/MaestrosDAO.php';
+
+$database = new Database();
+$db = $database->getConnection();
+$maestrosDAO = new App\DAO\MaestrosDAO($db);
+
+// Obtenemos los datos para las tablas
+$listaNiveles  = $maestrosDAO->listarNiveles();
+
 ?>
 
     <!-- INICIO DEL DASHBOARD -->
@@ -270,12 +279,14 @@ require_once __DIR__ . '/views/layout/header.php';
                     </ol>
                   </nav>
 
-                  <form id="formRegistroAlineado">
+                  <form action="procesar_maestros.php" method="POST" id="formRegistroAlineado">
                     <div class="row justify-content-center mt-5 mb-5 p-3">
                       <div class="col-md-6 col-lg-5">
                         
+                        <input type="hidden" name="tipo_registro" value="nivel">
+
                         <div class="form-floating mb-3">
-                          <input type="text" class="form-control" id="fNameFull" placeholder="Ingrese Nivel" autofocus>
+                          <input type="text" class="form-control" name="nombre_dato" id="fNameFull" placeholder="Ingrese Nivel" autofocus>
                           <label for="fNameFull">Nivel</label>
                         </div>
 
@@ -307,17 +318,12 @@ require_once __DIR__ . '/views/layout/header.php';
                         </tr>
                       </thead>
                       <tbody class="table-border-bottom-0">
-                      <?php
-                      for($i = 0; $i < 3 ; $i++)
-                      {
-                      ?>
+                      <?php foreach ($listaNiveles as $nivel): ?>
                             <tr>
-                              <td><i class="fab fa-angular fa-lg text-danger me-3"></i> Inicial</td>
+                              <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <?php echo $nivel['nombreNivel']; ?></td>
                               <td class="text-warning"><i class="bx bx-edit-alt "></i></td>
                             </tr>
-                      <?php
-                      }
-                      ?>
+                      <?php endforeach; ?>
                       </tbody>
                     </table>
 
@@ -369,7 +375,25 @@ require_once __DIR__ . '/views/layout/header.php';
 
     </div>
     <!-- FIN DEL DASHBOARD -->
-     
+
+    <!-- INICIO DE LOS MENSAJES SWEET -->
+        <?php if (isset($_GET['status']) && $_GET['status'] === 'success'): ?>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: '¡Buen trabajo!',
+                    text: 'Nivel registrado con éxito',
+                    icon: 'success',
+                    showConfirmButton: false,
+                    timer: 2500
+                    }).then(() => {
+                        // Esto limpia la URL en el navegador sin recargar la página
+                        window.history.replaceState({}, document.title, window.location.pathname);
+                    });
+            });
+        </script>
+        <?php endif; ?>
+    <!-- FIN DE LOS MENSAJES SWEET --> 
 
 <?php 
 // 2. Cargamos el pie de página (Scripts JS)

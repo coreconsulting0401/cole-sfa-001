@@ -1,4 +1,4 @@
-<<?php
+<?php
 class Database {
     private $host = "localhost";
     private $db_name = "sistema_escolar";

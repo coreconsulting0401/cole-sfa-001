@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-
 <html
-  lang="en"
+  lang="es"
   class="light-style layout-menu-fixed"
   dir="ltr"
   data-theme="theme-default"
