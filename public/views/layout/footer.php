@@ -41,5 +41,8 @@
 
     <script src="js/estudiante.js"></script>
 
+
+</div>
+
   </body>
 </html>

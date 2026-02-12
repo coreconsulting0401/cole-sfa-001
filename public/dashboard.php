@@ -1,4 +1,7 @@
 <?php
+// matricula.php
+require_once '../config/Database.php';
+require_once '../src/DAO/MatriculaDAO.php';
 
 session_start();
 if (!isset($_SESSION['user_id'])) {
@@ -6,7 +9,18 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
+$database = new Database();
+$db = $database->getConnection();
+$matriculaDAO = new App\DAO\MatriculaDAO($db);
 
+// ... inicialización de DB y DAOs ...
+$idAnioActivo = $_SESSION['anio_id'];
+
+// Totales para las tarjetas
+$totalGeneral   = $matriculaDAO->obtenerTotalMatriculasPorAnio($idAnioActivo);
+$totalInicial   = $matriculaDAO->obtenerTotalPorNivel($idAnioActivo, 1); // ID 1 = Inicial
+$totalPrimaria  = $matriculaDAO->obtenerTotalPorNivel($idAnioActivo, 2); // ID 2 = Primaria
+$totalSecundaria = $matriculaDAO->obtenerTotalPorNivel($idAnioActivo, 3); // ID 3 = Secundaria
 // 1. Cargamos el encabezado (Menú, CSS, etc.)
 require_once __DIR__ . '/views/layout/header.php';
 ?>
@@ -19,153 +33,11 @@ require_once __DIR__ . '/views/layout/header.php';
       <div class="layout-container">
         
         <!-- INICIO DEL MENU VERTICAL -->
-        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+            <?php 
+           
+            require_once __DIR__ . '/views/layout/aside.php'; 
 
-          <div class="app-brand demo h-auto d-flex flex-column align-items-center">
-                        
-            <div class="app-brand demo container d-flex justify-content-center align-items-center">
-                <img src="assets/img/logo/logo.png" class="img-fluid" width="70px"><br>               
-            </div>
-            <style>
-            .app-brand-text {
-                /* 1. Cambia el tamaño (ajusta el 1rem a tu gusto) */
-                font-size: 1.2rem !important; 
-                
-                /* 2. Evita que la plantilla lo ponga en mayúsculas automáticamente */
-                text-transform: none !important; 
-                
-                /* 3. Permite que el texto se ajuste si es muy largo */
-                white-space: normal !important;
-                line-height: 1.2;
-            }
-            </style>             
-            <div class="app-brand-text demo menu-text fw-bolder ms-0 text-lowercase-none">I.E.P. San Francisco</div>
-
-            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-              <i class="bx bx-chevron-left bx-sm align-middle"></i>
-            </a>
-
-          </div>
-
-          <hr>
-
-          <div class="menu-inner-shadow"></div>
-
-          <ul class="menu-inner py-1">
-            <!-- Dashboard -->
-            <li class="menu-item active">
-
-              <a href="dashboard.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Inicio</div>
-              </a>
-
-            </li>
-
-            <li class="menu-item">
-              <a href="#" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-pencil"></i>
-                <div data-i18n="Basic">Matrícula</div>
-              </a>
-            </li>
-
-            <!-- ACADÉMICO -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Académico</span></li>
-            <!-- REGISTRAR ESTUDIANTES -->
-            <li class="menu-item">
-              <a href="estudiante.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-user"></i>
-                <div data-i18n="Basic">Estudiantes</div>
-              </a>
-            </li>
-            <!-- GESTION -->
-            <li class="menu-item">
-              <a href="javascript:void(0)" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div data-i18n="User interface">Gestión</div>
-              </a>
-              <ul class="menu-sub">
-                
-                <li class="menu-item">
-                  <a href="ui-accordion.html" class="menu-link">
-                    <div data-i18n="Accordion">Accordion</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-alerts.html" class="menu-link">
-                    <div data-i18n="Alerts">Alerts</div>
-                  </a>
-                </li>
-
-              </ul>
-            </li>
-
-            <!-- CONFIGURACION -->
-            <li class="menu-item">
-              <a href="javascript:void(0)" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-cog"></i>
-                <div data-i18n="Extended UI">Configuración</div>
-              </a>
-              <ul class="menu-sub">
-
-                <li class="menu-item">
-                  <a href="anio.php" class="menu-link">
-                    <div data-i18n="Perfect Scrollbar">Año escolar</div>
-                  </a>
-                </li>
-
-                <li class="menu-item">
-                  <a href="nivel.php" class="menu-link">
-                    <div data-i18n="Text Divider">Nivel</div>
-                  </a>
-                </li>
-
-                <li class="menu-item">
-                  <a href="grado.php" class="menu-link">
-                    <div data-i18n="Text Divider">Grado</div>
-                  </a>
-                </li>
-
-                <li class="menu-item">
-                  <a href="seccion.php" class="menu-link">
-                    <div data-i18n="Text Divider">Sección</div>
-                  </a>
-                </li>
-
-                <li class="menu-item">
-                  <a href="periodo.php" class="menu-link">
-                    <div data-i18n="Text Divider">Periodo</div>
-                  </a>
-                </li>
-
-              </ul>
-            </li>
-
-            <!-- FINANCIERO -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Financiero</span></li>
-            <!-- CAJA -->
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-credit-card"></i>
-                <div data-i18n="Form Elements">Caja</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="forms-basic-inputs.html" class="menu-link">
-                    <div data-i18n="Basic Inputs">Basic Inputs</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="forms-input-groups.html" class="menu-link">
-                    <div data-i18n="Input groups">Input groups</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-
-          </ul>
-
-        </aside>
+            ?>
         <!-- FIN DEL MENU VERTICAL -->
 
         <!-- INICIO DEL MENU (USUARIO) Y CONTENIDO  -->
@@ -256,175 +128,98 @@ require_once __DIR__ . '/views/layout/header.php';
           <!-- INICIO DEL CONTENDO -->
           <div class="content-wrapper">
 
-            <div class="container-xxl flex-grow-1 container-p-y">
-              <div class="row">
-                  <!-- Inicio del bloque de bienvenida -->
-                <div class="col-lg-9 col-md-12 mb-4 order-0">
-                  <div class="card">
-                    <div class="d-flex align-items-end row">
-                      <div class="col-sm-7">
-                        <div class="card-body">
-                          <h5 class="card-title text-primary">Bienvenido </h5>
-                          <p class="mb-4">
-                            Estudiantes matriculados <span class="fw-bold">15%</span> más que en 2025.
-                          </p>
+              <div class="container-xxl flex-grow-1 container-p-y">
 
-                          <a href="#" class="btn btn-md btn-success">Matricula</a>
-                        </div>
-                      </div>
-                      <div class="col-sm-5 text-center text-sm-left">
-                        <div class="card-body pb-0 px-0 px-md-4">
-                          <img
-                            src="assets/img/illustrations/man-with-laptop-light.png"
-                            height="140"
-                            alt="View Badge User"
-                            data-app-dark-img="illustrations/man-with-laptop-dark.png"
-                            data-app-light-img="illustrations/man-with-laptop-light.png"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <!-- Fin del bloque de bienvenida -->
-
-                <!-- Inicio del bloque de Total -->
-                <div class="col-lg-3 col-md-12  mb-4">
+                <div class="row">
+                    <!-- Inicio del bloque de bienvenida -->
+                  <div class="col-lg-9 col-md-12 mb-4 order-0">
                     <div class="card">
-                      <div class="card-body">
-                        <div class="card-title d-flex align-items-start justify-content-between">
+                      <div class="d-flex align-items-end row">
+                        <div class="col-sm-7">
+                          <div class="card-body">
+                            <h3 class="card-title text-primary">Bienvenido </h3>
+                            <p class="mb-4">
+                              Estudiantes matriculados <span class="fw-bold">15%</span> más que en 2025.
+                            </p>
 
+                          </div>
                         </div>
-                        <span class="fw-semibold d-block mb-1">TOTAL</span>
-                        <h1 class="card-title mb-2">150 </h1>
-                        estudiantes
+                        <div class="col-sm-5 text-center text-sm-left">
+                          <div class="card-body pb-0 px-0 px-md-4">
+                            <img
+                              src="assets/img/illustrations/man-with-laptop-light.png"
+                              height="140"
+                              alt="View Badge User"
+                              data-app-dark-img="illustrations/man-with-laptop-dark.png"
+                              data-app-light-img="illustrations/man-with-laptop-light.png"
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                <!-- Inicio del bloque de Total -->
-                     
+                  <!-- Fin del bloque de bienvenida -->
 
-                <div class="col-lg-12 col-md-4 order-1">
-                  <div class="row justify-content-center">
+                  <!-- Inicio del bloque de Total -->
+                  <div class="col-lg-3 col-md-12  mb-4">
+                      <div class="card">
+                        <div class="card-body">
+                          <h1 class="fw-semibold d-block mb-1">TOTAL</h1>
+                          <h3 class="card-title mb-2"><?php echo $totalGeneral;?></h3>
+                          estudiantes
+                        </div>
+                      </div>
+                  </div> 
+                </div>              
+                <!-- Fin del bloque de Total --> 
 
-                        <!-- Inicio del bloque de Inicial -->
-                          <div class="col-lg-3 col-md-12 mb-4 d-flex">  
-                            <div class="card w-100">                    
-                              <div class="card-body d-flex flex-column justify-content-between">  
-                                <div class="card-title d-flex align-items-start justify-content-between">
-                                  <div class="avatar flex-shrink-0">
-                                    <img
-                                      src="assets/img/icons/unicons/wallet-info.png"
-                                      alt="Credit Card"
-                                      class="rounded"
-                                    />
+                <div class="row">
+                    <!-- Inicio del bloque de I,P,S --> 
+                    <div class="col-lg-12 col-md-4 order-1">
+                      <div class="row justify-content-center">
+
+                            <!-- Inicio del bloque de Inicial -->
+                              <div class="col-lg-3 col-md-12 col-sm-12 mb-4 d-flex">  
+                                <div class="card w-100">
+                                  <div class="card-body">
+                                    <h3 class="fw-semibold d-block mb-1 text-success">INICIAL</h3>
+                                    <h4 class="card-title mb-2 text-success"><?php echo $totalInicial;?></h4>
+                                    estudiantes
                                   </div>
-                                  <div class="dropdown">
-                                    <button
-                                      class="btn p-0"
-                                      type="button"
-                                      id="cardOpt6"
-                                      data-bs-toggle="dropdown"
-                                      aria-haspopup="true"
-                                      aria-expanded="false"
-                                    >
-                                      <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt6">
-                                      <a class="dropdown-item" href="javascript:void(0);">Ver más</a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div>
-                                  <span>Inicial</span>
-                                  <h3 class="card-title text-nowrap mb-1">47</h3>
                                 </div>
                               </div>
-                            </div>
-                          </div>
 
-                          <!-- Inicio del bloque de Primaria -->
-                          <div class="col-lg-3 col-md-12 mb-4 d-flex">
-                            <div class="card w-100">
-                              <div class="card-body d-flex flex-column justify-content-between">
-                                <div class="card-title d-flex align-items-start justify-content-between">
-                                  <div class="avatar flex-shrink-0">
-                                    <img src="assets/img/icons/unicons/paypal.png" alt="Credit Card" class="rounded" />
+                              <!-- Inicio del bloque de Primaria -->
+                              <div class="col-lg-3 col-md-12 col-sm-12 mb-4 d-flex">
+                                <div class="card w-100">
+                                  <div class="card-body">
+                                    <h3 class="fw-semibold d-block mb-1 text-warning">PRIMARIA</h3>
+                                    <h4 class="card-title mb-2 text-warning"><?php echo $totalPrimaria;?></h4>
+                                    estudiantes
                                   </div>
-                                  <div class="dropdown">
-                                    <button
-                                      class="btn p-0"
-                                      type="button"
-                                      id="cardOpt4"
-                                      data-bs-toggle="dropdown"
-                                      aria-haspopup="true"
-                                      aria-expanded="false"
-                                    >
-                                      <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="cardOpt4">
-                                      <a class="dropdown-item" href="javascript:void(0);">Ver más</a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div>
-                                  <span class="d-block mb-1">Primaria</span>
-                                  <h3 class="card-title text-nowrap mb-2">50</h3>
                                 </div>
                               </div>
-                            </div>
-                          </div>
 
-                          <!-- Inicio del bloque de Secundaria -->
-                          <div class="col-lg-3 col-md-12 mb-4 d-flex">
-                            <div class="card w-100">
-                              <div class="card-body d-flex flex-column justify-content-between">
-                                <div class="card-title d-flex align-items-start justify-content-between">
-                                  <div class="avatar flex-shrink-0">
-                                    <img src="assets/img/icons/unicons/cc-primary.png" alt="Credit Card" class="rounded" />
+                              <!-- Inicio del bloque de Secundaria -->
+                              <div class="col-lg-3 col-md-12 col-sm-12 mb-4 d-flex">
+                                <div class="card w-100">
+                                  <div class="card-body">
+                                    <h3 class="fw-semibold d-block mb-1 text-primary">SECUNDARIA</h3>
+                                    <h4 class="card-title mb-2 text-primary"><?php echo $totalSecundaria;?></h4>
+                                    estudiantes
                                   </div>
-                                  <div class="dropdown">
-                                    <button
-                                      class="btn p-0"
-                                      type="button"
-                                      id="cardOpt1"
-                                      data-bs-toggle="dropdown"
-                                      aria-haspopup="true"
-                                      aria-expanded="false"
-                                    >
-                                      <i class="bx bx-dots-vertical-rounded"></i>
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="cardOpt1">
-                                      <a class="dropdown-item" href="javascript:void(0);">Ver más</a>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div>
-                                  <span class="fw-semibold d-block mb-1">Secundaria</span>
-                                  <h3 class="card-title mb-2">70</h3>
                                 </div>
                               </div>
-                            </div>
-                          </div>
 
-                  </div>
+                      </div>
+                    </div>
+                    <!-- Fin del bloque de I,P,S --> 
                 </div>
-                <!-- Fin del bloque de Inicial y total-->
                 
-                <!-- Inicio del bloque de Primaria y secundaria -->
-                <div class="col-12 col-md-8 col-lg-4 order-3 order-md-2">
-                  <div class="row">
-
-
-
-        
-                  </div>
-                </div>
-                <!-- Fin del bloque de Primaria y secundaria-->
               </div>
-            </div>
-
           </div>
+
+          
           <!-- FIN DEL CONTENDO -->
         </div>
         <!-- FIN DEL MENU (USUARIO) Y CONTENIDO  -->

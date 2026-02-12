@@ -29,7 +29,7 @@ if (isset($_GET['id'])) {
 
 // Configuracion de paginación
 $busqueda = isset($_GET['buscar']) ? $_GET['buscar'] : '';
-$porPagina = 120;
+$porPagina = 100;
 $paginaActual = isset($_GET['p']) ? (int)$_GET['p'] : 1;
 $inicio = ($paginaActual - 1) * $porPagina;
 
@@ -46,152 +46,11 @@ $listaEstudiantes = $estudianteDAO->listarPaginado($inicio, $porPagina, $busqued
       <div class="layout-container">
         
         <!-- INICIO DEL MENU VERTICAL -->
-        <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+            <?php 
+           
+            require_once __DIR__ . '/views/layout/aside.php'; 
 
-          <div class="app-brand demo h-auto d-flex flex-column align-items-center">
-                        
-            <div class="app-brand demo container d-flex justify-content-center align-items-center">
-                <img src="assets/img/logo/logo.png" class="img-fluid" width="70px"><br>               
-            </div>
-            <style>
-            .app-brand-text {
-                /* 1. Cambia el tamaño (ajusta el 1rem a tu gusto) */
-                font-size: 1.2rem !important; 
-                
-                /* 2. Evita que la plantilla lo ponga en mayúsculas automáticamente */
-                text-transform: none !important; 
-                
-                /* 3. Permite que el texto se ajuste si es muy largo */
-                white-space: normal !important;
-                line-height: 1.2;
-            }
-            </style>             
-            <div class="app-brand-text demo menu-text fw-bolder ms-0 text-lowercase-none">I.E.P. San Francisco</div>
-
-            <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-              <i class="bx bx-chevron-left bx-sm align-middle"></i>
-            </a>
-
-          </div>
-
-          <hr>
-
-          <div class="menu-inner-shadow"></div>
-
-          <ul class="menu-inner py-1">
-            <!-- Dashboard -->
-            <li class="menu-item">
-
-              <a href="dashboard.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Inicio</div>
-              </a>
-
-            </li>
-
-            <li class="menu-item">
-              <a href="#" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-file"></i>
-                <div data-i18n="Basic">Matrícula</div>
-              </a>
-            </li>
-
-            <!-- ACADÉMICO -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Académico</span></li>
-            <!-- REGISTRAR ESTUDIANTES -->
-            <li class="menu-item active">
-              <a href="estudiante.php" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-user"></i>
-                <div data-i18n="Basic">Estudiantes</div>
-              </a>
-            </li>
-            <!-- GESTION -->
-            <li class="menu-item">
-              <a href="javascript:void(0)" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-detail"></i>
-                <div data-i18n="User interface">Gestión</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="ui-accordion.html" class="menu-link">
-                    <div data-i18n="Accordion">Accordion</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="ui-alerts.html" class="menu-link">
-                    <div data-i18n="Alerts">Alerts</div>
-                  </a>
-                </li>
-
-              </ul>
-            </li>
-
-            <!-- CONFIGURACION -->
-            <li class="menu-item">
-              <a href="javascript:void(0)" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-cog"></i>
-                <div data-i18n="Extended UI">Configuración</div>
-              </a>
-              <ul class="menu-sub">
-
-                <li class="menu-item">
-                  <a href="#" class="menu-link">
-                    <div data-i18n="Perfect Scrollbar">Año escolar</div>
-                  </a>
-                </li>
-
-                <li class="menu-item">
-                  <a href="#" class="menu-link">
-                    <div data-i18n="Text Divider">Nivel</div>
-                  </a>
-                </li>
-
-                <li class="menu-item">
-                  <a href="#" class="menu-link">
-                    <div data-i18n="Text Divider">Grado</div>
-                  </a>
-                </li>
-
-                <li class="menu-item">
-                  <a href="#" class="menu-link">
-                    <div data-i18n="Text Divider">Sección</div>
-                  </a>
-                </li>
-
-                <li class="menu-item">
-                  <a href="#" class="menu-link">
-                    <div data-i18n="Text Divider">Periodo</div>
-                  </a>
-                </li>
-
-              </ul>
-            </li>
-
-            <!-- FINANCIERO -->
-            <li class="menu-header small text-uppercase"><span class="menu-header-text">Financiero</span></li>
-            <!-- CAJA -->
-            <li class="menu-item">
-              <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-credit-card"></i>
-                <div data-i18n="Form Elements">Caja</div>
-              </a>
-              <ul class="menu-sub">
-                <li class="menu-item">
-                  <a href="forms-basic-inputs.html" class="menu-link">
-                    <div data-i18n="Basic Inputs">Basic Inputs</div>
-                  </a>
-                </li>
-                <li class="menu-item">
-                  <a href="forms-input-groups.html" class="menu-link">
-                    <div data-i18n="Input groups">Input groups</div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-
-          </ul>
-
-        </aside>
+            ?>
         <!-- FIN DEL MENU VERTICAL -->
 
         <!-- INICIO DEL MENU (USUARIO) Y CONTENIDO MAIN  -->
@@ -285,183 +144,183 @@ $listaEstudiantes = $estudianteDAO->listarPaginado($inicio, $porPagina, $busqued
 
                 <!-- INICIO DEL FORMULARIO -->
                                     
-                  <form action="procesar_estudiante.php" method="POST" enctype="multipart/form-data" class="row g-3 needs-validation" novalidate>
+                    <form id="formEstudiante" class="row g-3 needs-validation" novalidate>
 
-                      <input type="hidden" name="idEstudiante" value="<?php echo $isEdit ? $estData['idEstudiante'] : ''; ?>">
+                        <input type="hidden" name="idEstudiante" id="idEstudiante" value="<?php echo $isEdit ? $estData['idEstudiante'] : ''; ?>">
 
-                      <div class="nav-align-top mb-4">
-                          <ul class="nav nav-tabs" role="tablist">
-                              <li class="nav-item">
-                                  <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-estudiante" aria-selected="true">Estudiante</button>
-                              </li>
-                              <li class="nav-item">
-                                  <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-padre" aria-selected="false">Padre</button>
-                              </li>
-                              <li class="nav-item">
-                                  <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-madre" aria-selected="false">Madre</button>
-                              </li>
-                              <li class="nav-item">
-                                  <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-apoderado" aria-selected="false">Apoderado/Tutor</button>
-                              </li>
-                              <li class="nav-item">
-                                  <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-observacion" aria-selected="false">Observación</button>
-                              </li>
-                          </ul>
+                        <div class="nav-align-top mb-4">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-estudiante" aria-selected="true">Estudiante</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-padre" aria-selected="false">Padre</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-madre" aria-selected="false">Madre</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-apoderado" aria-selected="false">Apoderado/Tutor</button>
+                                </li>
+                                <li class="nav-item">
+                                    <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-observacion" aria-selected="false">Observación</button>
+                                </li>
+                            </ul>
 
-                          <div class="tab-content">
-                              <div class="tab-pane fade show active" id="navs-estudiante" role="tabpanel">
-                                  <div class="row">
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="text" class="form-control" name="dniEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['dniEstudiante']) : ''; ?>" id="fdni" placeholder="DNI" autofocus required>
-                                              <label for="fdni">DNI o Carnet de extranjería</label>
-                                              <div class="invalid-tooltip">Obligatorio</div>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="text" class="form-control" name="nombresEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['nombresEstudiante']) : ''; ?>" id="fnames" placeholder="Nombres" required>
-                                              <label for="fnames">Nombres</label>
-                                              <div class="invalid-tooltip">Obligatorio</div>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="text" class="form-control" name="apellidoPaternoEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['apellidoPaternoEstudiante']) : ''; ?>" id="fapellidoP" placeholder="Apellido Paterno" required>
-                                              <label for="fapellidoP">Apellido Paterno</label>
-                                              <div class="invalid-tooltip">Obligatorio</div>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="text" class="form-control" name="apellidoMaternoEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['apellidoMaternoEstudiante']) : ''; ?>" id="fapellidoM" placeholder="Apellido Materno" required>
-                                              <label for="fapellidoM">Apellido Materno</label>
-                                              <div class="invalid-tooltip">Obligatorio</div>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="email" class="form-control" name="emailEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['emailEstudiante']) : ''; ?>" id="femail" placeholder="Correo">
-                                              <label for="femail">Correo Electrónico</label>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="date" class="form-control" name="fechaNacimientoEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['fechaNacimientoEstudiante']) : ''; ?>" id="fbirth">
-                                              <label for="fbirth">Fecha de Nacimiento</label>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="navs-estudiante" role="tabpanel">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" name="dniEstudiante" id="dniEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['dniEstudiante']) : ''; ?>" placeholder="DNI" autofocus required>
+                                                <label for="dniEstudiante">DNI o Carnet de extranjería</label>
+                                                <div class="invalid-tooltip">Obligatorio</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" name="nombresEstudiante" id="nombresEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['nombresEstudiante']) : ''; ?>" placeholder="Nombres" required>
+                                                <label for="nombresEstudiante">Nombres</label>
+                                                <div class="invalid-tooltip">Obligatorio</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" name="apellidoPaternoEstudiante" id="apellidoPaternoEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['apellidoPaternoEstudiante']) : ''; ?>" placeholder="Apellido Paterno" required>
+                                                <label for="apellidoPaternoEstudiante">Apellido Paterno</label>
+                                                <div class="invalid-tooltip">Obligatorio</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" name="apellidoMaternoEstudiante" id="apellidoMaternoEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['apellidoMaternoEstudiante']) : ''; ?>" placeholder="Apellido Materno" required>
+                                                <label for="apellidoMaternoEstudiante">Apellido Materno</label>
+                                                <div class="invalid-tooltip">Obligatorio</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="email" class="form-control" name="emailEstudiante" id="emailEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['emailEstudiante']) : ''; ?>" placeholder="Correo">
+                                                <label for="emailEstudiante">Correo Electrónico</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="date" class="form-control" name="fechaNacimientoEstudiante" id="fechaNacimientoEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['fechaNacimientoEstudiante']) : ''; ?>" placeholder="Fecha de Nacimiento">
+                                                <label for="fechaNacimientoEstudiante">Fecha de Nacimiento</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                              <div class="tab-pane fade" id="navs-padre" role="tabpanel">
-                                  <div class="row">
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="text" class="form-control" name="dniPadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['dniPadreEstudiante']) : ''; ?>" id="dniPadre" placeholder="DNI Padre">
-                                              <label for="dniPadre">DNI Padre</label>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="text" class="form-control" name="nombresPadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['nombresPadreEstudiante']) : ''; ?>" id="nombresApellidos" placeholder="Nombres">
-                                              <label for="nombresApellidos">Nombres y Apellidos del Padre</label>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="tel" class="form-control" name="telefonoPadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['telefonoPadreEstudiante']) : ''; ?>" id="celular" placeholder="Celular">
-                                              <label for="celular">Celular</label>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="email" class="form-control" name="emailPadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['emailPadreEstudiante']) : ''; ?>" id="correoPadre" placeholder="Correo">
-                                              <label for="correoPadre">Correo Electrónico</label>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
+                                <div class="tab-pane fade" id="navs-padre" role="tabpanel">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" name="dniPadreEstudiante" id="dniPadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['dniPadreEstudiante']) : ''; ?>" placeholder="DNI Padre">
+                                                <label for="dniPadreEstudiante">DNI Padre</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" name="nombresPadreEstudiante" id="nombresPadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['nombresPadreEstudiante']) : ''; ?>" placeholder="Nombres">
+                                                <label for="nombresPadreEstudiante">Nombres y Apellidos del Padre</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="tel" class="form-control" name="telefonoPadreEstudiante" id="telefonoPadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['telefonoPadreEstudiante']) : ''; ?>" placeholder="Celular">
+                                                <label for="telefonoPadreEstudiante">Celular</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="email" class="form-control" name="emailPadreEstudiante" id="emailPadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['emailPadreEstudiante']) : ''; ?>" placeholder="Correo">
+                                                <label for="emailPadreEstudiante">Correo Electrónico</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                              <div class="tab-pane fade" id="navs-madre" role="tabpanel">
-                                  <div class="row">
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="text" class="form-control" name="dniMadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['dniMadreEstudiante']) : ''; ?>" id="dniMadre" placeholder="DNI Madre">
-                                              <label for="dniMadre">DNI Madre</label>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="text" class="form-control" name="nombresMadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['nombresMadreEstudiante']) : ''; ?>" id="nombresMadre" placeholder="Nombres">
-                                              <label for="nombresMadre">Nombres y Apellidos de la Madre</label>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="tel" class="form-control" name="telefonoMadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['telefonoMadreEstudiante']) : ''; ?>" id="celularMadre" placeholder="Celular">
-                                              <label for="celularMadre">Celular</label>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="email" class="form-control" name="emailMadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['emailMadreEstudiante']) : ''; ?>" id="correoMadre" placeholder="Correo">
-                                              <label for="correoMadre">Correo Electrónico</label>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
+                                <div class="tab-pane fade" id="navs-madre" role="tabpanel">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" name="dniMadreEstudiante" id="dniMadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['dniMadreEstudiante']) : ''; ?>" placeholder="DNI Madre">
+                                                <label for="dniMadreEstudiante">DNI Madre</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" name="nombresMadreEstudiante" id="nombresMadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['nombresMadreEstudiante']) : ''; ?>" placeholder="Nombres">
+                                                <label for="nombresMadreEstudiante">Nombres y Apellidos de la Madre</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="tel" class="form-control" name="telefonoMadreEstudiante" id="telefonoMadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['telefonoMadreEstudiante']) : ''; ?>" placeholder="Celular">
+                                                <label for="telefonoMadreEstudiante">Celular</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="email" class="form-control" name="emailMadreEstudiante" id="emailMadreEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['emailMadreEstudiante']) : ''; ?>" placeholder="Correo">
+                                                <label for="emailMadreEstudiante">Correo Electrónico</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                              <div class="tab-pane fade" id="navs-apoderado" role="tabpanel">
-                                  <div class="row">
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="text" class="form-control" name="dniTutorEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['dniTutorEstudiante']) : ''; ?>" id="dniApoderado" placeholder="DNI">
-                                              <label for="dniApoderado">DNI Tutor</label>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="text" class="form-control" name="nombresTutorEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['nombresTutorEstudiante']) : ''; ?>" id="nombresApoderado" placeholder="Nombres">
-                                              <label for="nombresApoderado">Nombres y Apellidos del Tutor</label>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="tel" class="form-control" name="telefonoTutorEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['telefonoTutorEstudiante']) : ''; ?>" id="celularApoderado" placeholder="Celular">
-                                              <label for="celularApoderado">Celular</label>
-                                          </div>
-                                      </div>
-                                      <div class="col-md-6 mb-3">
-                                          <div class="form-floating">
-                                              <input type="email" class="form-control" name="emailTutorEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['emailTutorEstudiante']) : ''; ?>" id="correoApoderado" placeholder="Correo">
-                                              <label for="correoApoderado">Correo Electrónico</label>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
+                                <div class="tab-pane fade" id="navs-apoderado" role="tabpanel">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" name="dniTutorEstudiante" id="dniTutorEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['dniTutorEstudiante']) : ''; ?>" placeholder="DNI">
+                                                <label for="dniTutorEstudiante">DNI Tutor</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="text" class="form-control" name="nombresTutorEstudiante" id="nombresTutorEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['nombresTutorEstudiante']) : ''; ?>" placeholder="Nombres">
+                                                <label for="nombresTutorEstudiante">Nombres y Apellidos del Tutor</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="tel" class="form-control" name="telefonoTutorEstudiante" id="telefonoTutorEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['telefonoTutorEstudiante']) : ''; ?>" placeholder="Celular">
+                                                <label for="telefonoTutorEstudiante">Celular</label>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <div class="form-floating">
+                                                <input type="email" class="form-control" name="emailTutorEstudiante" id="emailTutorEstudiante" value="<?php echo $isEdit ? htmlspecialchars($estData['emailTutorEstudiante']) : ''; ?>" placeholder="Correo">
+                                                <label for="emailTutorEstudiante">Correo Electrónico</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                              <div class="tab-pane fade" id="navs-observacion" role="tabpanel">
-                                  <div class="col-12 mb-3">
-                                      <div class="form-floating">
-                                          <textarea class="form-control" name="observacionEstudiante"  id="floatingTextarea" style="height: 100px" placeholder="Observaciones"><?php echo $isEdit ? htmlspecialchars($estData['observacionEstudiante']) : ''; ?></textarea>
-                                          <label for="floatingTextarea">Observaciones adicionales</label>
-                                      </div>
-                                  </div>
-                              </div>
+                                <div class="tab-pane fade" id="navs-observacion" role="tabpanel">
+                                    <div class="col-12 mb-3">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" name="observacionEstudiante" id="observacionEstudiante" style="height: 100px" placeholder="Observaciones"><?php echo $isEdit ? htmlspecialchars($estData['observacionEstudiante']) : ''; ?></textarea>
+                                            <label for="observacionEstudiante">Observaciones adicionales</label>
+                                        </div>
+                                    </div>
+                                </div>
 
-                              <button type="submit" class="btn <?php echo $isEdit ? 'btn-warning' : 'btn-success'; ?> btn-md mt-3">
-                                  <span class="tf-icons bx bx-plus me-1"></span>
-                                  <?php echo $isEdit ? 'Actualizar Estudiante' : 'Agregar Estudiante'; ?>
-                              </button>
+                                <button type="submit" class="btn <?php echo $isEdit ? 'btn-warning' : 'btn-success'; ?> btn-md mt-3">
+                                    <span class="tf-icons bx bx-save me-1"></span>
+                                    <?php echo $isEdit ? 'Actualizar Estudiante' : 'Agregar Estudiante'; ?>
+                                </button>
 
-                              <?php if($isEdit): ?>
-                                  <a href="estudiante.php" class="btn btn-outline-secondary btn-md mt-3 ms-2">Cancelar</a>
-                              <?php endif; ?>
+                                <?php if($isEdit): ?>
+                                    <a href="estudiante.php" class="btn btn-outline-secondary btn-md mt-3 ms-2">Cancelar</a>
+                                <?php endif; ?>
 
-                          </div>
-                      </div>
-                  </form>
+                            </div>
+                        </div>
+                    </form>
                                     
                 <!-- FIN DEL FORMULARIO --> 
 
@@ -477,56 +336,89 @@ $listaEstudiantes = $estudianteDAO->listarPaginado($inicio, $porPagina, $busqued
                           id="buscarEstudiante"
                         />
                       </div>
-                  <div class="table-responsive text-nowrap">
+                    <div class="table-responsive text-nowrap">
 
-                    <table class="table table-hover text-center mb-5">
-                      <thead>
-                        <tr>
-                          <th>DNI</th>
-                          <th>Estudiante</th>
-                          <th>Ver</th>
-                          <th>Editar</th>
-                          <th>Matrícula</th>
-                        </tr>
-                      </thead>
-                      <tbody class="table-border-bottom-0">
-                        <?php if (empty($listaEstudiantes)): ?>
-                            <tr>
-                                <td colspan="5" class="text-center">No hay estudiantes registrados.</td>
-                            </tr>
-                        <?php else: ?>
-                          <?php foreach ($listaEstudiantes as $est): ?>
-                            <tr>
-                              <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <?php echo htmlspecialchars($est['dniEstudiante']); ?> </td>
-                              <td>
-                                <?php 
-                                echo htmlspecialchars($est['apellidoPaternoEstudiante'] . ' ' . 
-                                     $est['apellidoMaternoEstudiante'] . ', ' . 
-                                     $est['nombresEstudiante']); 
-                                ?>
-                            </td>
-                              <td>
-                                <div class="d-flex justify-content-center">
-                                    <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                                      <li
-                                        data-bs-toggle="tooltip"
-                                        data-popup="tooltip-custom"
-                                        data-bs-placement="top"
-                                        class="avatar avatar-xs pull-up text-center"
-                                        title="Lilian Fuller"
-                                      >
-                                        <img src="assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
-                                      </li>
-                                    </ul>
-                                </div>
-                              </td>
-                              <td><a href="estudiante.php?id=<?php echo $est['idEstudiante'];?>"><i class="bx bx-edit text-warning"></i></a></td>
-                              <td class="text-success"><i class="bx bx-file"></i></td>
-                            </tr>
-                          <?php endforeach; ?>
-                        <?php endif; ?>
-                      </tbody>
-                    </table>
+                      <table class="table table-hover mb-5">
+                          <thead>
+                              <tr class="text-center">
+                                  <th>DNI</th>
+                                  <th>Estudiante</th>
+                                  <th>Ver</th>
+                                  <th>Editar</th>
+                                  <th>Matrícula <?php echo $_SESSION['anio_nombre']; ?></th>
+                              </tr>
+                          </thead>
+                          <tbody id="tablaEstudiantesBody" class="table-border-bottom-0">
+                              <?php if (empty($listaEstudiantes)): ?>
+                                  <tr>
+                                      <td colspan="5" class="text-center">No hay estudiantes registrados.</td>
+                                  </tr>
+                              <?php else: ?>
+                                  <?php foreach ($listaEstudiantes as $est): 
+                                      // Verificamos si ya está matriculado en el año activo
+                                      $yaMatriculado = $estudianteDAO->verificarMatriculaActiva($est['idEstudiante'], $_SESSION['anio_id']); 
+                                  ?>
+                                      <tr>
+                                          <td class="text-center">
+                                              <i class="fab fa-angular fa-lg text-danger me-3"></i> 
+                                              <strong><?php echo htmlspecialchars($est['dniEstudiante']); ?></strong>
+                                          </td>
+
+                                          <td>
+                                              <?php 
+                                              echo htmlspecialchars($est['apellidoPaternoEstudiante'] . ' ' . 
+                                                  $est['apellidoMaternoEstudiante'] . ', ' . 
+                                                  $est['nombresEstudiante']); 
+                                              ?>
+                                          </td>
+
+                                          <td class="text-center">
+                                              <div class="d-flex justify-content-center">
+                                                  <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                                                      <li data-bs-toggle="tooltip"
+                                                          data-popup="tooltip-custom"
+                                                          data-bs-placement="top"
+                                                          class="avatar avatar-xs pull-up"
+                                                          title="Ver detalle de <?php echo htmlspecialchars($est['nombresEstudiante']); ?>">
+                                                          <img src="assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
+                                                      </li>
+                                                  </ul>
+                                              </div>
+                                          </td>
+
+                                          <td class="text-center">
+                                              <a href="estudiante.php?id=<?php echo $est['idEstudiante'];?>" class="btn btn-sm btn-icon btn-outline-warning">
+                                                  <i class="bx bx-edit"></i>
+                                              </a>
+                                          </td>
+
+                                          <td class="text-center">
+                                              <div class="d-flex justify-content-center">
+                                                  <?php if ($yaMatriculado): ?>
+                                                      <button type="button" class="btn btn-sm btn-icon btn-success" title="Matrícula ya registrada" disabled>
+                                                          <i class="bx bx-check-double"></i>
+                                                      </button>
+                                                  <?php else: ?>
+                                                      <button type="button"
+                                                              data-bs-toggle="tooltip" 
+                                                              data-popup="tooltip-custom"
+                                                              data-bs-placement="top"
+                                                              title="Realizar matrícula"
+                                                              class="btn btn-sm btn-icon btn-outline-success btn-matricular" 
+                                                              data-id="<?php echo $est['idEstudiante']; ?>"
+                                                              data-nombre="<?php echo htmlspecialchars($est['apellidoPaternoEstudiante'] . ' ' . $est['nombresEstudiante']); ?>"
+                                                              title="Realizar Matrícula">
+                                                          <i class="bx bx-file"></i>
+                                                      </button>
+                                                  <?php endif; ?>
+                                              </div>
+                                          </td>
+                                      </tr>
+                                  <?php endforeach; ?>
+                              <?php endif; ?>
+                          </tbody>
+                      </table>
+
                   </div>
 
                   <div class="card-footer pb-0">
@@ -573,25 +465,130 @@ $listaEstudiantes = $estudianteDAO->listarPaginado($inicio, $porPagina, $busqued
     <!-- FIN DEL DASHBOARD -->
      
     <!-- INICIO DE LOS MENSAJES SWEET -->
-        <?php if (isset($_GET['status']) && $_GET['status'] === 'success'): ?>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                Swal.fire({
-                    title: '¡Buen trabajo!',
-                    text: 'Estudiante registrado con éxito',
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 2500
-                    }).then(() => {
-                        // Esto limpia la URL en el navegador sin recargar la página
-                        window.history.replaceState({}, document.title, window.location.pathname);
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.getElementById('formEstudiante');
+        const tablaBody = document.getElementById('tablaEstudiantesBody');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!form.checkValidity()) {
+                form.classList.add('was-validated');
+                return;
+            }
+
+            const formData = new FormData(form);
+
+            fetch('./procesar_estudiante.php', { 
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Error en la respuesta del servidor');
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Éxito!',
+                        text: data.isEdit ? 'Estudiante actualizado' : 'Estudiante registrado correctamente',
+                        timer: 1500,
+                        showConfirmButton: false
                     });
+
+                    if (data.isEdit) {
+                        // En edición recargamos para refrescar cambios en toda la fila de forma segura
+                        setTimeout(() => location.reload(), 1500);
+                    } else {
+                        // SI ES NUEVO: Agregamos la fila dinámicamente
+                        if (data.estudiante) {
+                            agregarFilaATabla(data.estudiante);
+                        }
+                        
+                        // Limpiar formulario y estados de validación
+                        form.reset();
+                        form.classList.remove('was-validated');
+                        
+                        // Opcional: Volver a la primera pestaña (Estudiante)
+                        const firstTab = document.querySelector('#formEstudiante .nav-link:first-child');
+                        if (firstTab) bootstrap.Tab.getOrCreateInstance(firstTab).show();
+                    }
+                } else {
+                    Swal.fire('Atención', data.message || 'Error al procesar', 'warning');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire('Error crítico', 'No se pudo conectar con el servidor o el formato de respuesta es inválido.', 'error');
             });
-        </script>
-        <?php endif; ?>
+        });
+
+        function agregarFilaATabla(est) {
+            // 1. Eliminar el mensaje de "No hay estudiantes" si existe
+            if (tablaBody.innerHTML.includes('colspan="5"')) {
+                tablaBody.innerHTML = '';
+            }
+
+            // 2. Construir la fila con el formato exacto de tu tabla
+            const nuevaFila = `
+                <tr>
+                    <td class="text-center">
+                        <i class="fab fa-angular fa-lg text-danger me-3"></i> 
+                        <strong>${est.dniEstudiante}</strong>
+                    </td>
+                    <td>
+                        ${est.apellidoPaternoEstudiante} ${est.apellidoMaternoEstudiante}, ${est.nombresEstudiante}
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                                <li class="avatar avatar-xs pull-up" title="Ver detalle de ${est.nombresEstudiante}">
+                                    <img src="assets/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        <a href="estudiante.php?id=${est.idEstudiante}" class="btn btn-sm btn-icon btn-outline-warning">
+                            <i class="bx bx-edit"></i>
+                        </a>
+                    </td>
+                    <td class="text-center">
+                        <div class="d-flex justify-content-center">
+                            <button type="button" 
+                                    class="btn btn-sm btn-icon btn-outline-success btn-matricular" 
+                                    data-id="${est.idEstudiante}" 
+                                    data-nombre="${est.apellidoPaternoEstudiante} ${est.nombresEstudiante}"
+                                    title="Realizar Matrícula">
+                                <i class="bx bx-file"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr>`;
+            
+            // 3. Insertar al principio de la tabla para que el usuario vea el cambio de inmediato
+            tablaBody.insertAdjacentHTML('afterbegin', nuevaFila);
+            
+            // 4. Inicializar tooltips de Bootstrap si los usas para la nueva fila
+            const tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+            tooltips.forEach(t => new bootstrap.Tooltip(t));
+        }
+    });
+</script>
     <!-- FIN DE LOS MENSAJES SWEET -->
 
 <?php 
 // 2. Cargamos el pie de página (Scripts JS)
 require_once __DIR__ . '/views/layout/footer.php'; 
 ?>
+
+  <!-- INICIO DEL MODAL PARA LA MATRICULA -->
+  <div class="modal fade" id="modalDinamico" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" id="contenidoModal">
+        </div>
+    </div>
+  </div>
+  <!-- FIN DEL MODAL PARA LA MATRICULA -->

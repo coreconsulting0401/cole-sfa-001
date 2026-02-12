@@ -6,15 +6,37 @@ require_once '../src/DAO/EstudianteDAO.php';
 use App\Models\Estudiante;
 use App\DAO\EstudianteDAO;
 
+header('Content-Type: application/json');
 session_start();
-if (!isset($_SESSION['user_id'])) { header("Location: login.php"); exit(); }
 
+if (!isset($_SESSION['user_id'])) {
+    echo json_encode(['success' => false, 'message' => 'Sesión no iniciada']);
+    exit;
+}
+
+$database = new Database();
+$db = $database->getConnection();
+$estudianteDAO = new EstudianteDAO($db);
+
+$action = $_GET['action'] ?? 'guardar';
+
+// ACCIÓN: LISTAR PARA LA TABLA
+if ($action === 'listar') {
+    $busqueda = $_GET['buscar'] ?? '';
+    // Reutilizamos tu lógica de paginación o traemos los últimos 100
+    $lista = $estudianteDAO->listarPaginado(0, 100, $busqueda);
+    
+    // Añadimos info de matrícula para cada estudiante
+    foreach ($lista as &$est) {
+        $est['yaMatriculado'] = $estudianteDAO->verificarMatriculaActiva($est['idEstudiante'], $_SESSION['anio_id']);
+    }
+    
+    echo json_encode($lista);
+    exit;
+}
+
+// ACCIÓN: GUARDAR/ACTUALIZAR
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $database = new Database();
-    $db = $database->getConnection();
-    $estudianteDAO = new EstudianteDAO($db);
-
-    // Capturamos el ID si existe
     $idExistente = !empty($_POST['idEstudiante']) ? (int)$_POST['idEstudiante'] : null;
 
     $estudiante = new Estudiante(
@@ -25,7 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         apellidoMaternoEstudiante: $_POST['apellidoMaternoEstudiante'] ?? '',
         emailEstudiante: $_POST['emailEstudiante'] ?? null,
         fechaNacimientoEstudiante: $_POST['fechaNacimientoEstudiante'] ?? null,
-        fotoEstudiante: null,
         dniPadreEstudiante: $_POST['dniPadreEstudiante'] ?? null,
         nombresPadreEstudiante: $_POST['nombresPadreEstudiante'] ?? null,
         telefonoPadreEstudiante: $_POST['telefonoPadreEstudiante'] ?? null,
@@ -42,21 +63,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     try {
-        // DECISIÓN: ¿Actualizar o Registrar?
         if ($idExistente) {
-            $resultado = $estudianteDAO->actualizar($estudiante);
+            $exito = $estudianteDAO->actualizar($estudiante);
+            echo json_encode(['success' => $exito, 'isEdit' => true]);
         } else {
-            $resultado = $estudianteDAO->registrar($estudiante);
-        }
-
-        if ($resultado) {
-            // Aplicamos tu limpieza de URL para el SweetAlert
-            $url_limpia = strtok($_SERVER['HTTP_REFERER'], '?');
-            header("Location: " . $url_limpia . "?status=success");
-        } else {
-            header("Location: estudiante.php?status=error");
+            // Aquí capturamos el ID que ahora devuelve el DAO
+            $nuevoId = $estudianteDAO->registrar($estudiante); 
+            
+            if ($nuevoId) {
+                echo json_encode([
+                    'success' => true,
+                    'isEdit' => false,
+                    'estudiante' => [
+                        'idEstudiante' => $nuevoId,
+                        'dniEstudiante' => $_POST['dniEstudiante'],
+                        'nombresEstudiante' => $_POST['nombresEstudiante'],
+                        'apellidoPaternoEstudiante' => $_POST['apellidoPaternoEstudiante'],
+                        'apellidoMaternoEstudiante' => $_POST['apellidoMaternoEstudiante']
+                    ]
+                ]);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Error al insertar en DB']);
+            }
         }
     } catch (Exception $e) {
-        echo "Error: " . $e->getMessage();
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
     }
 }

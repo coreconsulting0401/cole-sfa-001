@@ -7,34 +7,24 @@ class EstudianteDAO {
     private $db;
     public function __construct($connection) { $this->db = $connection; }
 
-    public function registrar(Estudiante $e) {
-        $sql = "INSERT INTO estudiante (dniEstudiante, nombresEstudiante, apellidoPaternoEstudiante, apellidoMaternoEstudiante, emailEstudiante, fechaNacimientoEstudiante, fotoEstudiante, dniPadreEstudiante, nombresPadreEstudiante, telefonoPadreEstudiante, emailPadreEstudiante, dniMadreEstudiante, nombresMadreEstudiante, telefonoMadreEstudiante, emailMadreEstudiante, dniTutorEstudiante, nombresTutorEstudiante, telefonoTutorEstudiante, emailTutorEstudiante, observacionEstudiante) 
-                VALUES (:dni, :nom, :apeP, :apeM, :em, :fNac, :foto, :dniP, :nomP, :telP, :emP, :dniMa, :nomMa, :telMa, :emMa, :dniT, :nomT, :telT, :emT, :obs)";
-        
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([
-            ':dni' => $e->dniEstudiante, ':nom' => $e->nombresEstudiante, ':apeP' => $e->apellidoPaternoEstudiante,
-            ':apeM' => $e->apellidoMaternoEstudiante, ':em' => $e->emailEstudiante, ':fNac' => $e->fechaNacimientoEstudiante,
-            ':foto' => $e->fotoEstudiante, ':dniP' => $e->dniPadreEstudiante, ':nomP' => $e->nombresPadreEstudiante,
-            ':telP' => $e->telefonoPadreEstudiante, ':emP' => $e->emailPadreEstudiante, ':dniMa' => $e->dniMadreEstudiante,
-            ':nomMa' => $e->nombresMadreEstudiante, ':telMa' => $e->telefonoMadreEstudiante, ':emMa' => $e->emailMadreEstudiante,
-            ':dniT' => $e->dniTutorEstudiante, ':nomT' => $e->nombresTutorEstudiante, ':telT' => $e->telefonoTutorEstudiante,
-            ':emT' => $e->emailTutorEstudiante, ':obs' => $e->observacionEstudiante
-        ]);
-    }
+   public function registrar(Estudiante $e) {
+    $sql = "INSERT INTO estudiante (dniEstudiante, nombresEstudiante, apellidoPaternoEstudiante, apellidoMaternoEstudiante, emailEstudiante, fechaNacimientoEstudiante, fotoEstudiante, dniPadreEstudiante, nombresPadreEstudiante, telefonoPadreEstudiante, emailPadreEstudiante, dniMadreEstudiante, nombresMadreEstudiante, telefonoMadreEstudiante, emailMadreEstudiante, dniTutorEstudiante, nombresTutorEstudiante, telefonoTutorEstudiante, emailTutorEstudiante, observacionEstudiante) 
+            VALUES (:dni, :nom, :apeP, :apeM, :em, :fNac, :foto, :dniP, :nomP, :telP, :emP, :dniMa, :nomMa, :telMa, :emMa, :dniT, :nomT, :telT, :emT, :obs)";
+    
+    $stmt = $this->db->prepare($sql);
+    $exito = $stmt->execute([
+        ':dni' => $e->dniEstudiante, ':nom' => $e->nombresEstudiante, ':apeP' => $e->apellidoPaternoEstudiante,
+        ':apeM' => $e->apellidoMaternoEstudiante, ':em' => $e->emailEstudiante, ':fNac' => $e->fechaNacimientoEstudiante,
+        ':foto' => $e->fotoEstudiante, ':dniP' => $e->dniPadreEstudiante, ':nomP' => $e->nombresPadreEstudiante,
+        ':telP' => $e->telefonoPadreEstudiante, ':emP' => $e->emailPadreEstudiante, ':dniMa' => $e->dniMadreEstudiante,
+        ':nomMa' => $e->nombresMadreEstudiante, ':telMa' => $e->telefonoMadreEstudiante, ':emMa' => $e->emailMadreEstudiante,
+        ':dniT' => $e->dniTutorEstudiante, ':nomT' => $e->nombresTutorEstudiante, ':telT' => $e->telefonoTutorEstudiante,
+        ':emT' => $e->emailTutorEstudiante, ':obs' => $e->observacionEstudiante
+    ]);
 
-    public function listarTodos() {
-        $sql = "SELECT idEstudiante, dniEstudiante, nombresEstudiante, 
-                    apellidoPaternoEstudiante, apellidoMaternoEstudiante, 
-                    emailEstudiante 
-                FROM estudiante 
-                ORDER BY idEstudiante DESC";
-        
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute();
-        
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
+    // SI EL INSERT FUE EXITOSO, DEVOLVEMOS EL ID, SI NO, FALSE
+    return $exito ? $this->db->lastInsertId() : false;
+}
 
     public function obtenerPorId($id) {
         $stmt = $this->db->prepare("SELECT * FROM estudiante WHERE idEstudiante = ?");
@@ -100,5 +90,30 @@ class EstudianteDAO {
         $stmt->execute();
         return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
+
+    public function verificarMatriculaActiva($idEstudiante, $idAnio) {
+        $sql = "SELECT COUNT(*) FROM matricula 
+                WHERE idEstudiante = :idEst 
+                AND idAnio = :idAnio 
+                AND estadoMatricula = '1'";
+        
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute([
+            ':idEst' => $idEstudiante,
+            ':idAnio' => $idAnio
+        ]);
+        
+        return $stmt->fetchColumn() > 0; // Retorna true si ya existe
+    }
+
+    public function listarEstudiantes() {
+    $sql = "SELECT idEstudiante, nombresEstudiante, apellidoPaternoEstudiante, 
+                   apellidoMaternoEstudiante, dniEstudiante, estadoEstudiante 
+            FROM estudiante ORDER BY idEstudiante DESC";
+    $stmt = $this->db->prepare($sql);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 
 }

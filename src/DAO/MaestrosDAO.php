@@ -23,6 +23,12 @@ class MaestrosDAO {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function obtenerAnioActivo() {
+        // Intentamos con la tabla 'periodo' que aparece en tus archivos
+        $stmt = $this->db->query("SELECT * FROM anio WHERE estadoAnio = '1' LIMIT 1");
+        return $stmt->fetch(\PDO::FETCH_ASSOC);
+    }
+
     // --- MÉTODOS PARA REGISTRAR (CREAD) ---
 
     public function registrarGrado($nombre) {

@@ -1,3 +1,7 @@
+<?php
+// Captura el nombre del archivo actual (ej: 'dashboard.php')
+$pagina_actual = basename($_SERVER['PHP_SELF']);
+?>
 <!DOCTYPE html>
 <html
   lang="es"
@@ -14,12 +18,12 @@
       content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>Dashboard - Analytics | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+    <title>I.E.P. San Fransisco de Asís</title>
 
     <meta name="description" content="" />
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="../assets/img/favicon/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.png" />
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -53,3 +57,8 @@
   </head>
 
   <body>
+
+  <?php
+  // Loading
+  require_once __DIR__ . '/loading.php';
+  ?>
